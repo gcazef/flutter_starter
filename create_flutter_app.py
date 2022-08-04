@@ -2,6 +2,7 @@
 
 import os
 import re
+import shutil
 
 
 FLUTTER_UPGRADE_CMD = 'flutter upgrade'
@@ -11,10 +12,20 @@ FLUTTER_PUB_ADD_DEV_CMD = 'flutter pub add -d'
 
 
 DEPENDENCIES = [
-
+    'beamer',
+    'flutter_hooks',
+    'freezed_annotation',
+    'hooks_riverpod',
+    'intl',
+    'json_annotation',
+    'objectbox',
+    'objectbox_flutter_libs',
 ]
 DEV_DEPENDENCIES = [
-
+    'build_runner',
+    'json_serializable',
+    'objectbox_generator',
+    'freezed',
 ]
 
 
@@ -32,12 +43,6 @@ def prompt_project_name():
         return project_name
 
 
-def copy_template_files():
-    #TODO: perform copy
-    # TODO: rename package:template in package:project_name
-    pass
-
-
 def install_packages():
     cwd = os.path.realpath(os.getcwd())
     project_path = f'{cwd}/{project_name}'
@@ -50,10 +55,27 @@ def install_packages():
     os.chdir(cwd)
 
 
+def copy_template_files():
+    cwd = os.path.realpath(os.getcwd())
+    template_path = f'{os.path.dirname(os.path.realpath(__file__))}/template'
+    project_path = f'{cwd}/{project_name}/'
+
+    shutil.copytree(f'{template_path}/assets/', f'{project_path}/assets/')
+
+    shutil.rmtree(f'{project_path}/lib/')
+    shutil.copytree(f'{template_path}/lib/', f'{project_path}/lib/')
+
+    shutil.rmtree(f'{project_path}/test/')
+    shutil.copytree(f'{template_path}/test/', f'{project_path}/test/')
+
+    shutil.copy(f'{template_path}/analysis_options.yaml', project_path)
+    shutil.copy(f'{template_path}/l10n.yaml', project_path)
+
+
 if __name__ == '__main__':
     print('Welcome, let\'s create your Flutter project!\n')
 
-    print('🤔 What is the name of your project?\n')
+    print('🤔 What is the name of your project?')
     project_name = prompt_project_name()
 
     print('\n📈 Running `flutter upgrade`...')
