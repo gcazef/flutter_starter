@@ -5,7 +5,6 @@ Tool to help you create a new Flutter app with clean architecture and required d
 **What it does**
 - [x] Generate project with the latest Flutter version
 - [x] Copy all files from the template into the new project
-- [x] Ask if you need a local database ([ObjectBox](https://pub.dev/packages/objectbox)) and a REST API client ([DIO](https://pub.dev/packages/dio))
 - [x] Upgrade all pub dependencies
 
 ## Requirements
